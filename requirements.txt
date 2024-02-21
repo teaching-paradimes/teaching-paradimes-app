@@ -1,0 +1,2 @@
+typesense
+acdh_cfts_pyutils

@@ -6,8 +6,8 @@ from typesense.api_call import ObjectNotFound
 BASE_URL = "https://raw.githubusercontent.com/teaching-paradimes/teaching-paradimes-baserow-export/main/json_dumps/"
 SCHEMA_NAME = "teaching-paradimes"
 
+print(f"fetching data from {BASE_URL}")
 source_data = requests.get(f"{BASE_URL}courses.json").json()
-
 seed_data = requests.get(f"{BASE_URL}country.json").json()
 
 for key, value in source_data.items():
@@ -64,6 +64,7 @@ current_schema = {
     ],
 }
 
+print(f"creating collection: {SCHEMA_NAME}")
 try:
     client.collections[SCHEMA_NAME].delete()
 except ObjectNotFound:
@@ -82,8 +83,6 @@ for key, value in source_data.items():
             item[x] = y
     records.append(item)
 
-records[0]
-
+print(f"indexing collection: {SCHEMA_NAME}")
 make_index = client.collections[SCHEMA_NAME].documents.import_(records)
-
-make_index
+print(make_index)
